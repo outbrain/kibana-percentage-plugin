@@ -1,12 +1,14 @@
-// Include the angular controller
+import TemplateVisTypeTemplateVisTypeProvider from 'ui/template_vis_type/template_vis_type';
+import VisSchemasProvider from 'ui/vis/schemas';
+
 require('plugins/ob-kb-percent/percentController');
 require('plugins/ob-kb-percent/ob-kb-percent.css');
 
 // The provider function, which must return our new visualization type
 function PercentProvider(Private) {
-	var TemplateVisType = Private(require('ui/template_vis_type/TemplateVisType'));
+	var TemplateVisType = Private(TemplateVisTypeTemplateVisTypeProvider);
 	// Include the Schemas class, which will be used to define schemas
-	var Schemas = Private(require('ui/Vis/Schemas'));
+	var Schemas = Private(VisSchemasProvider);
 
 	// Describe our visualization
 	return new TemplateVisType({
