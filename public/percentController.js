@@ -46,7 +46,8 @@ module.controller('PercentController', function($scope, Private) {
 		var denominator = $scope.getValueFromAggs(resp, tabified, denominatorType, denominatorParams);
 
 		const ratio = numerator / denominator;
-		console.log("numerator = ", numerator);
+		if ($scope.vis.params.displayIncrement == true) { ratio = ratio - 1 };
+	        console.log("numerator = ", numerator);
 		console.log("denominator = ", denominator);
 		$scope.ratio = numeral(ratio).format($scope.vis.params.format);
       }
