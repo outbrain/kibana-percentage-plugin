@@ -45,7 +45,7 @@ function PercentProvider(Private) {
       			label: 'Percent :',
       			labelFontSize: 40,
       			labelPlacement: 'top',
-
+			displayIncrement: false,
       			numeratorType : 'total',
       			numerator : {
       				nthBucket : 1,
