@@ -17,9 +17,14 @@
     </select>
 
   <label>Label Font Size - {{vis.params.labelFontSize}}pt</label>
-  <input type="range" ng-model="vis.params.labelFontSize" class="form-control" min="12" max="120" />
-  
+  <input type="range" ng-model="vis.params.labelFontSize" class="form-control" min="12" max="120" />	
+	
   <hr>
+ 
+  <div class="form-group">
+    <label>Display percentage increment</label>
+    <input type="checkbox" ng-model="vis.params.displayIncrement" class="form-control" id="placement" class="form-control"/>
+  </div>
 
   <div class="form-inline form-group">
 	  <label class="control-label" for="numeratorType">Numerator : </label>
