@@ -12,9 +12,10 @@ module.controller('PercentController', function($scope, Private) {
 
     const tabifyAggResponse = Private(AggResponseTabifyProvider);
 
-    $scope.getValueFromAggs = function (resp, tableGroups, type, params) {
+    $scope.getValueFromAggs = function (tableGroups, type, params) {
     	if (type === 'total') {
-    		return resp.hits.total;
+            return 
+    		return tableGroups.tables[0].rows.length;
     	}
     	if (type === 'namedBucket') {
     		for (var i = 0; i < tableGroups.tables.length; i++) {
@@ -40,23 +41,26 @@ module.controller('PercentController', function($scope, Private) {
 
     $scope.$watch('esResponse', function (resp) {
       if (resp) {
-        var tabified = tabifyAggResponse($scope.vis, resp);
-        console.log(tabified);
+        //var tabified = tabifyAggResponse($scope.vis, resp);
+        //console.log("tabified: " + tabified);
+        console.log("resp.tables[0].rows.length: " + resp.tables[0].rows.length);
+
 
 		var numeratorType = $scope.vis.params.numeratorType;
 		var numeratorParams = $scope.vis.params.numerator;
-		var numerator = $scope.getValueFromAggs(resp, tabified, numeratorType, numeratorParams);
+		var numerator = $scope.getValueFromAggs(resp, numeratorType, numeratorParams);
 
 		var denominatorType = $scope.vis.params.denominatorType;
 		var denominatorParams = $scope.vis.params.denominator;
-		var denominator = $scope.getValueFromAggs(resp, tabified, denominatorType, denominatorParams);
+		var denominator = $scope.getValueFromAggs(resp, denominatorType, denominatorParams);
 
 		var ratio = numerator / denominator;
 		if ($scope.vis.params.displayIncrement == true) { ratio = ratio - 1 };
-	        console.log("numerator = ", numerator);
+	    console.log("numerator = ", numerator);
 		console.log("denominator = ", denominator);
-		$scope.ratio = numeral(ratio).format($scope.vis.params.format);
-        
+    	ratio = numeral(ratio).format($scope.vis.params.format);
+        $scope.ratio = ratio;
       }
     });
+
   });
