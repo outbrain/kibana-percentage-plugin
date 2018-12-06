@@ -1,6 +1,10 @@
 {
  "name": "ob-kb-percent",
  "version": "6.1.0",
+  "kibana": {
+    "version": "6.4.2",
+    "templateVersion": "1.0.0"
+  },
  "devDependencies": {
   "numeral": "^1.5.3",
   "@elastic/eslint-config-kibana": "0.0.2",

@@ -1,7 +1,7 @@
 import { uiModules } from 'ui/modules';
 const module = uiModules.get('kibana/ob-kb-percent', ['kibana']);
 
-import { AggResponseTabifyProvider } from 'ui/agg_response/tabify/tabify';
+import { tabifyAggResponse } from 'ui/agg_response/tabify/tabify';
 
 //var module = require('ui/modules').get('ob-kb-percent');
 var numeral = require('numeral');
@@ -10,12 +10,10 @@ var numeral = require('numeral');
 
 module.controller('PercentController', function($scope, Private) {
 
-    const tabifyAggResponse = Private(AggResponseTabifyProvider);
 
-    $scope.getValueFromAggs = function (tableGroups, type, params) {
+    $scope.getValueFromAggs = function (resp, tableGroups, type, params) {
     	if (type === 'total') {
-            return 
-    		return tableGroups.tables[0].rows.length;
+    		return resp.hits.total;
     	}
     	if (type === 'namedBucket') {
     		for (var i = 0; i < tableGroups.tables.length; i++) {
@@ -43,19 +41,19 @@ module.controller('PercentController', function($scope, Private) {
       if (resp) {
         //var tabified = tabifyAggResponse($scope.vis, resp);
         //console.log("tabified: " + tabified);
-        console.log("resp.tables[0].rows.length: " + resp.tables[0].rows.length);
-
+				let tableGroups = tabifyAggResponse($scope.vis.getAggConfig(), resp)
+        console.log("resp.tables[0].rows.length: " + tableGroups.tables[0].rows.length);
 
 		var numeratorType = $scope.vis.params.numeratorType;
 		var numeratorParams = $scope.vis.params.numerator;
-		var numerator = $scope.getValueFromAggs(resp, numeratorType, numeratorParams);
+		var numerator = $scope.getValueFromAggs(resp, tableGroups, numeratorType, numeratorParams);
 
 		var denominatorType = $scope.vis.params.denominatorType;
 		var denominatorParams = $scope.vis.params.denominator;
-		var denominator = $scope.getValueFromAggs(resp, denominatorType, denominatorParams);
+		var denominator = $scope.getValueFromAggs(resp, tableGroups, denominatorType, denominatorParams);
 
 		var ratio = numerator / denominator;
-		if ($scope.vis.params.displayIncrement == true) { ratio = ratio - 1 };
+		if ($scope.vis.params.displayIncrement == true) { ratio = Math.abs(ratio - 1) };
 	    console.log("numerator = ", numerator);
 		console.log("denominator = ", denominator);
     	ratio = numeral(ratio).format($scope.vis.params.format);
