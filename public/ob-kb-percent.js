@@ -7,13 +7,12 @@ import optionsTemplate from 'plugins/ob-kb-percent/ob-kb-percent-editor.html';
 import {CATEGORY} from 'ui/vis/vis_category';
 import {VisFactoryProvider} from 'ui/vis/vis_factory';
 import {VisTypesRegistryProvider} from 'ui/registry/vis_types';
-import {VisSchemasProvider} from 'ui/vis/editors/default/schemas';
+import { Schemas } from 'ui/vis/editors/default/schemas';
 
 VisTypesRegistryProvider.register(PercentProvider);
 
 function PercentProvider(Private) {
   const VisFactory = Private(VisFactoryProvider);
-  const Schemas = Private(VisSchemasProvider);
 
   return VisFactory.createAngularVisualization({
     name: 'obPercent',
@@ -21,7 +20,7 @@ function PercentProvider(Private) {
     icon: 'fa-hand-lizard-o',
     description: 'Percent metric visualization.',
     category: CATEGORY.OTHER,
-    
+    responseHandler: 'none',
     //visualization: VisController,
 
     visConfig: {
@@ -53,12 +52,12 @@ function PercentProvider(Private) {
 		title: 'Value',
 		min: 1,
 		max: 1
-		//,
-		//aggFilter: ['count', 'avg', 'sum', 'min', 'max', 'cardinality', 'std_dev'],
-        //defaults: [{
-        //  type: 'count',
-        //  schema: 'metric'
-        //}]
+		,
+		aggFilter: ['count', 'avg', 'sum', 'min', 'max', 'cardinality', 'std_dev'],
+        defaults: [{
+          type: 'count',
+          schema: 'metric'
+        }]
       }, 
       {
         group: 'buckets',
